@@ -24,8 +24,8 @@ jobs:
       - run: pip3 install -r requirements.txt
 
       - run: python3 musts.py
-      - run: python3 nte.py
-      - run: python3 scrape.py
+      # - run: python3 nte.py
+      # - run: python3 scrape.py
 
       - name: Checkout
         uses: actions/checkout@v3
