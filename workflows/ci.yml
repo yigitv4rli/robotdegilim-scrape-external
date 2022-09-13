@@ -1,0 +1,43 @@
+name: Scrape
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: https://github.com/yigitv4rli/robotdegilim-scrape-internal.git
+          persist-credentials: false
+          token: ${{ secrets.GH_PAT }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "pip" # caching pip dependencies
+
+      - run: pip3 install -r requirements.txt
+
+      - run: python3 musts.py
+      - run: python3 nte.py
+      - run: python3 scrape.py
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          token: ${{ secrets.GH_PAT }}
+          path: exports
+
+      - run: cp *.json exports/
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update data [skip ci]
+          file_pattern: "*.json"
+          repository: exports
