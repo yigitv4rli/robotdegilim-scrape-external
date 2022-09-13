@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/yigitv4rli/robotdegilim-scrape-internal.git
+          repository: yigitv4rli/robotdegilim-scrape-internal
           persist-credentials: false
           token: ${{ secrets.GH_PAT }}
 
